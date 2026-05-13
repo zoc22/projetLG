@@ -1,0 +1,24 @@
+{
+	"name": "modules/genealogy",
+	"description": "Module de gestion de la généalogie et de l'arbre unilevel/matrice.",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Genealogy\\": "./",
+			"Modules\\Genealogy\\Tests\\": "tests/",
+			"Modules\\Genealogy\\Database\\Factories\\": "database/factories/",
+			"Modules\\Genealogy\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Genealogy\\Providers\\GenealogyServiceProvider"
+			]
+		}
+	}
+}

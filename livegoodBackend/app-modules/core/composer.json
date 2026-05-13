@@ -1,0 +1,29 @@
+{
+    "name": "modules/core",
+    "description": "Module Core pour LiveGood - Gestion des modules, permissions et fonctionnalités de base",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Core\\": "",
+            "Modules\\Core\\Tests\\": "tests/",
+            "Modules\\Core\\Database\\Factories\\": "database/factories/",
+            "Modules\\Core\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Core\\Providers\\CoreServiceProvider",
+                "Modules\\Core\\Providers\\ModuleServiceProvider"
+            ]
+        },
+        "active": true,
+        "order": 1,
+        "dependencies": [],
+        "provider": "Modules\\Core\\Providers\\CoreServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,23 @@
+{
+    "name": "modules/statistics",
+    "description": "Module Statistics pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Statistics\\": "src/",
+            "Modules\\Statistics\\Tests\\": "tests/",
+            "Modules\\Statistics\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Statistics\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Statistics\\Providers\\StatisticsServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

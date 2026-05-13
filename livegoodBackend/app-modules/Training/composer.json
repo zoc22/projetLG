@@ -1,0 +1,23 @@
+{
+    "name": "modules/training",
+    "description": "Module Training pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Training\\": "src/",
+            "Modules\\Training\\Tests\\": "tests/",
+            "Modules\\Training\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Training\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Training\\Providers\\TrainingServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

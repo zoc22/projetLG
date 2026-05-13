@@ -1,0 +1,24 @@
+{
+	"name": "modules/commission",
+	"description": "Module de gestion des commissions et des bonus.",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Commission\\": "./",
+			"Modules\\Commission\\Tests\\": "tests/",
+			"Modules\\Commission\\Database\\Factories\\": "database/factories/",
+			"Modules\\Commission\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Commission\\Providers\\CommissionServiceProvider"
+			]
+		}
+	}
+}

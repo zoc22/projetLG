@@ -1,0 +1,23 @@
+{
+    "name": "modules/shop",
+    "description": "Module Shop pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Shop\\": "src/",
+            "Modules\\Shop\\Tests\\": "tests/",
+            "Modules\\Shop\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Shop\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Shop\\Providers\\ShopServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

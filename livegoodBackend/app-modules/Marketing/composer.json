@@ -1,0 +1,23 @@
+{
+    "name": "modules/marketing",
+    "description": "Module Marketing pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Marketing\\": "src/",
+            "Modules\\Marketing\\Tests\\": "tests/",
+            "Modules\\Marketing\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Marketing\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Marketing\\Providers\\MarketingServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

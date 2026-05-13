@@ -1,0 +1,23 @@
+{
+    "name": "modules/user-management",
+    "description": "Module UserManagement pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\UserManagement\\": "src/",
+            "Modules\\UserManagement\\Tests\\": "tests/",
+            "Modules\\UserManagement\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\UserManagement\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\UserManagement\\Providers\\UserManagementServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

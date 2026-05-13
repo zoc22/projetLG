@@ -1,0 +1,607 @@
+{
+  "info": {
+    "_postman_id": "livegood-core-module-tests",
+    "name": "LiveGood Core Module API Tests",
+    "description": "Collection complète pour tester toutes les opérations du module Core de LiveGood",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Santé & Configuration",
+      "item": [
+        {
+          "name": "Santé de l'application",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "health"]
+            },
+            "description": "Vérifie la santé de l'application"
+          },
+          "response": []
+        },
+        {
+          "name": "Configuration du module Core",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "config"]
+            },
+            "description": "Récupère la configuration complète du module Core"
+          },
+          "response": []
+        },
+        {
+          "name": "Permissions disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/available",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "available"]
+            },
+            "description": "Récupère toutes les permissions et rôles disponibles"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Gestion des Modules",
+      "item": [
+        {
+          "name": "Lister tous les modules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/modules",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules"]
+            },
+            "description": "Récupère la liste de tous les modules disponibles"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du module Core",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/core",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "core"]
+            },
+            "description": "Récupère les détails complets du module Core"
+          },
+          "response": []
+        },
+        {
+          "name": "Statut du module Core",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/core/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "core", "status"]
+            },
+            "description": "Vérifie le statut d'activation du module Core"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du module Authentication",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/authentication",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "authentication"]
+            },
+            "description": "Récupère les détails du module Authentication"
+          },
+          "response": []
+        },
+        {
+          "name": "Statut du module Authentication",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/authentication/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "authentication", "status"]
+            },
+            "description": "Vérifie le statut du module Authentication"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Test des Helpers de Module",
+      "item": [
+        {
+          "name": "Test helper: module_path",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"module\": \"core\",\n  \"path\": \"config\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/test/helper-path",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "test", "helper-path"]
+            },
+            "description": "Teste la fonction helper module_path()"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: module_config",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"module\": \"core\",\n  \"key\": \"name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/test/helper-config",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "test", "helper-config"]
+            },
+            "description": "Teste la fonction helper module_config()"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: module_enabled",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"module\": \"core\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/modules/test/helper-enabled",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "modules", "test", "helper-enabled"]
+            },
+            "description": "Teste la fonction helper module_enabled()"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Gestion des Rôles",
+      "item": [
+        {
+          "name": "Lister tous les rôles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/roles",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "roles"]
+            },
+            "description": "Récupère les informations de tous les rôles"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du rôle: super_admin",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/roles/super_admin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "roles", "super_admin"]
+            },
+            "description": "Récupère les détails du rôle super_admin"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du rôle: admin",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/roles/admin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "roles", "admin"]
+            },
+            "description": "Récupère les détails du rôle admin"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du rôle: affiliate",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/roles/affiliate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "roles", "affiliate"]
+            },
+            "description": "Récupère les détails du rôle affiliate"
+          },
+          "response": []
+        },
+        {
+          "name": "Détails du rôle: member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/roles/member",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "roles", "member"]
+            },
+            "description": "Récupère les détails du rôle member"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Gestion des Permissions",
+      "item": [
+        {
+          "name": "Vérifier une permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permission\": \"users.view\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/check",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "check"]
+            },
+            "description": "Vérifie si l'utilisateur authentifié a une permission spécifique"
+          },
+          "response": []
+        },
+        {
+          "name": "Vérifier TOUTES les permissions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permissions\": [\"users.view\", \"users.create\", \"users.edit\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/check-all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "check-all"]
+            },
+            "description": "Vérifie si l'utilisateur a TOUTES les permissions spécifiées"
+          },
+          "response": []
+        },
+        {
+          "name": "Vérifier AU MOINS UNE permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permissions\": [\"users.delete\", \"admin\", \"super_admin\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/check-any",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "check-any"]
+            },
+            "description": "Vérifie si l'utilisateur a AU MOINS UNE des permissions spécifiées"
+          },
+          "response": []
+        },
+        {
+          "name": "Vérifier un rôle",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/check-role",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "check-role"]
+            },
+            "description": "Vérifie si l'utilisateur a un rôle spécifique"
+          },
+          "response": []
+        },
+        {
+          "name": "Vérifier si super admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/check-super-admin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "check-super-admin"]
+            },
+            "description": "Vérifie si l'utilisateur est super admin"
+          },
+          "response": []
+        },
+        {
+          "name": "Récupérer toutes les permissions de l'utilisateur",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "user"]
+            },
+            "description": "Récupère toutes les permissions de l'utilisateur authentifié"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Test des Helpers de Permissions",
+      "item": [
+        {
+          "name": "Test helper: has_permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permission\": \"users.view\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/test/helper-has-permission",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "test", "helper-has-permission"]
+            },
+            "description": "Teste la fonction helper has_permission()"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: is_admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/core/permissions/test/helper-is-admin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "permissions", "test", "helper-is-admin"]
+            },
+            "description": "Teste la fonction helper is_admin()"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "7. Helpers Généraux",
+      "item": [
+        {
+          "name": "Test helper: generate_uuid",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/core/helpers/uuid/generate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "helpers", "uuid", "generate"]
+            },
+            "description": "Teste la fonction helper generate_uuid()"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: format_currency (USD)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1234.56,\n  \"currency\": \"USD\",\n  \"locale\": \"en_US\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/helpers/currency/format",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "helpers", "currency", "format"]
+            },
+            "description": "Teste la fonction helper format_currency() avec USD"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: format_currency (EUR)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1234.56,\n  \"currency\": \"EUR\",\n  \"locale\": \"fr_FR\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/helpers/currency/format",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "helpers", "currency", "format"]
+            },
+            "description": "Teste la fonction helper format_currency() avec EUR"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: cache_remember_forever",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"test_cache_key\",\n  \"value\": \"cached_value\",\n  \"tag\": \"test_tag\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/helpers/cache/remember-forever",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "helpers", "cache", "remember-forever"]
+            },
+            "description": "Teste la fonction helper cache_remember_forever()"
+          },
+          "response": []
+        },
+        {
+          "name": "Test helper: module_asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"module\": \"core\",\n  \"path\": \"js/app.js\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/core/helpers/module-asset",
+              "host": ["{{base_url}}"],
+              "path": ["api", "core", "helpers", "module-asset"]
+            },
+            "description": "Teste la fonction helper module_asset()"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "Token d'authentification Sanctum - À remplir après authentification"
+    }
+  ]
+}

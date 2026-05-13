@@ -1,0 +1,23 @@
+{
+    "name": "modules/support",
+    "description": "Module Support pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Support\\": "src/",
+            "Modules\\Support\\Tests\\": "tests/",
+            "Modules\\Support\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Support\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Support\\Providers\\SupportServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

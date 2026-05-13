@@ -1,0 +1,23 @@
+{
+    "name": "modules/rank",
+    "description": "Module Rank pour LiveGood",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Rank\\": "src/",
+            "Modules\\Rank\\Tests\\": "tests/",
+            "Modules\\Rank\\Database\\Factories\\": "src/Database/Factories/",
+            "Modules\\Rank\\Database\\Seeders\\": "src/Database/Seeders/"
+        }
+    },
+    "extra": {
+        "active": true,
+        "order": 10,
+        "dependencies": ["core"],
+        "provider": "Modules\\Rank\\Providers\\RankServiceProvider"
+    },
+    "minimum-stability": "stable"
+}

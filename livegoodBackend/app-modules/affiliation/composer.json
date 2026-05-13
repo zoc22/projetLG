@@ -1,0 +1,23 @@
+{
+    "name": "modules/affiliation",
+    "description": "Module Affiliation pour LiveGood - Gestion du réseau de parrainage et des commissions",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+		"psr-4": {
+			"Modules\\Affiliation\\": "src/",
+			"Modules\\Affiliation\\Tests\\": "tests/",
+			"Modules\\Affiliation\\Database\\Factories\\": "src/Database/Factories/",
+			"Modules\\Affiliation\\Database\\Seeders\\": "src/Database/Seeders/"
+		}
+    },
+    "extra": {
+        "active": true,
+        "order": 2,
+        "dependencies": ["core"],
+        "provider": "Modules\\Affiliation\\Providers\\AffiliationServiceProvider"
+    },
+    "minimum-stability": "stable"
+}
