@@ -22,6 +22,42 @@ class CommissionController extends Controller
     }
 
     /**
+     * Résumé global pour la page "Mes Gains".
+     */
+    public function earnings(): JsonResponse
+    {
+        $userId = Auth::id();
+        
+        $totalPaid = Commission::where('user_id', $userId)
+            ->where('status', 'VALIDATED')
+            ->sum('amount');
+
+        // Récupérer l'historique groupé par période
+        $history = Commission::where('user_id', $userId)
+            ->selectRaw('period_string as range, MAX(created_at) as date, 
+                         SUM(CASE WHEN type = "WEEKLY" THEN amount ELSE 0 END) as fs,
+                         SUM(CASE WHEN type = "MONTHLY" THEN amount ELSE 0 END) as matrix,
+                         SUM(amount) as total')
+            ->groupBy('period_string')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'range'  => $item->range,
+                    'date'   => $item->date->format('d/m/Y'),
+                    'fs'     => number_format($item->fs, 2, '.', ''),
+                    'matrix' => number_format($item->matrix, 2, '.', ''),
+                    'total'  => number_format($item->total, 2, '.', '')
+                ];
+            });
+
+        return response()->json([
+            'lifeTimeEarnings' => (float)$totalPaid,
+            'history' => $history
+        ]);
+    }
+
+    /**
      * Résumé par période.
      */
     public function summaryPerPeriod(string $period): JsonResponse

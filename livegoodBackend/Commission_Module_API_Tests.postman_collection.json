@@ -1,0 +1,829 @@
+{
+  "info": {
+    "_postman_id": "livegood-commission-module-tests",
+    "name": "LiveGood Commission Module API Tests",
+    "description": "Collection complète pour tester tous les endpoints du module Commission",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "commission_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "period",
+      "value": "2024-W01",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Setup & Authentication",
+      "item": [
+        {
+          "name": "Login - Get Auth Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set('auth_token', jsonData.token || jsonData.access_token);",
+                  "    pm.environment.set('user_id', jsonData.user.id || jsonData.user_id);",
+                  "    pm.test('Token retrieved successfully', function () {",
+                  "        pm.expect(pm.environment.get('auth_token')).to.exist;",
+                  "    });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Se connecter et obtenir un token d'authentification"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "1. Commission Management - GET",
+      "item": [
+        {
+          "name": "List All Commissions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has success field', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('Response contains data array', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.exist;",
+                  "});",
+                  "",
+                  "if (pm.response.json().data && pm.response.json().data.length > 0) {",
+                  "    pm.environment.set('commission_id', pm.response.json().data[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions?page=1&per_page=15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "15"
+                }
+              ]
+            },
+            "description": "Récupère l'historique paginé de toutes les commissions de l'utilisateur"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Commission Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Commission data is complete', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('id');",
+                  "    pm.expect(jsonData.data).to.have.property('user_id');",
+                  "    pm.expect(jsonData.data).to.have.property('amount');",
+                  "    pm.expect(jsonData.data).to.have.property('status');",
+                  "    pm.expect(jsonData.data).to.have.property('type');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/{{commission_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "{{commission_id}}"]
+            },
+            "description": "Récupère les détails complets d'une commission spécifique avec ses relations bonus"
+          },
+          "response": []
+        },
+        {
+          "name": "Summary by Period",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Period summary has correct structure', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('period');",
+                  "    pm.expect(jsonData).to.have.property('summary');",
+                  "    pm.expect(jsonData).to.have.property('total_amount');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/summary/{{period}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "summary", "{{period}}"]
+            },
+            "description": "Récupère un résumé des commissions d'une période spécifique (ex: 2024-W01)"
+          },
+          "response": []
+        },
+        {
+          "name": "Summary by Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Summary contains data grouped by status', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "    if (jsonData.data.length > 0) {",
+                  "        pm.expect(jsonData.data[0]).to.have.property('status');",
+                  "        pm.expect(jsonData.data[0]).to.have.property('total');",
+                  "        pm.expect(jsonData.data[0]).to.have.property('count');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/status/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "status", "summary"]
+            },
+            "description": "Récupère un résumé des commissions groupées par statut (pending, validated, paid, cancelled)"
+          },
+          "response": []
+        },
+        {
+          "name": "Summary by Type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Summary contains data grouped by type', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "    if (jsonData.data.length > 0) {",
+                  "        pm.expect(jsonData.data[0]).to.have.property('type');",
+                  "        pm.expect(jsonData.data[0]).to.have.property('total');",
+                  "        pm.expect(jsonData.data[0]).to.have.property('count');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/type/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "type", "summary"]
+            },
+            "description": "Récupère un résumé des commissions groupées par type (weekly, monthly, special)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Bonus Reports",
+      "item": [
+        {
+          "name": "Bonus Report by Type",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Bonus report has expected structure', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('success');",
+                  "    pm.expect(jsonData).to.have.property('data');",
+                  "    pm.expect(jsonData).to.have.property('total');",
+                  "});",
+                  "",
+                  "pm.test('Each bonus entry has required fields', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.length > 0) {",
+                  "        jsonData.data.forEach(function(bonus) {",
+                  "            pm.expect(bonus).to.have.property('source');",
+                  "            pm.expect(bonus).to.have.property('type');",
+                  "            pm.expect(bonus).to.have.property('count');",
+                  "            pm.expect(bonus).to.have.property('total');",
+                  "        });",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/report/bonus",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "report", "bonus"]
+            },
+            "description": "Rapport détaillé des bonus par type avec totaux et comptage"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Error Handling Tests",
+      "item": [
+        {
+          "name": "Unauthorized Request (No Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 401', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions"]
+            },
+            "description": "Test d'erreur 401 sans token"
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Period Format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400 or 422', function () {",
+                  "    pm.expect([400, 422]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/summary/invalid-period",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "summary", "invalid-period"]
+            },
+            "description": "Test avec un format de période invalide"
+          },
+          "response": []
+        },
+        {
+          "name": "Commission Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Error message is present', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/00000000-0000-0000-0000-000000000000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "00000000-0000-0000-0000-000000000000"]
+            },
+            "description": "Test avec un ID de commission inexistant"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Performance & Load Tests",
+      "item": [
+        {
+          "name": "List All Commissions - Large Dataset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions?page=1&per_page=100",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Test de performance avec un grand nombre de résultats"
+          },
+          "response": []
+        },
+        {
+          "name": "Multiple Concurrent Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/status/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "status", "summary"]
+            },
+            "description": "Test de concurrent requests (utiliser Postman Collection Runner)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Data Validation Tests",
+      "item": [
+        {
+          "name": "Validate Commission Amount Format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Commission amounts are numbers', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.length > 0) {",
+                  "        jsonData.data.forEach(function(commission) {",
+                  "            pm.expect(commission.amount).to.be.a('number');",
+                  "            pm.expect(commission.amount).to.be.at.least(0);",
+                  "        });",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions"]
+            },
+            "description": "Validation que les montants de commission sont des nombres valides"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Commission Status Values",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const validStatuses = ['pending', 'validated', 'paid', 'cancelled'];",
+                  "",
+                  "pm.test('All commission statuses are valid', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.length > 0) {",
+                  "        jsonData.data.forEach(function(commission) {",
+                  "            pm.expect(validStatuses).to.include(commission.status);",
+                  "        });",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/status/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "status", "summary"]
+            },
+            "description": "Validation que les statuts sont parmi: pending, validated, paid, cancelled"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Commission Type Values",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const validTypes = ['weekly', 'monthly', 'special'];",
+                  "",
+                  "pm.test('All commission types are valid', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.length > 0) {",
+                  "        jsonData.data.forEach(function(commission) {",
+                  "            pm.expect(validTypes).to.include(commission.type);",
+                  "        });",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/type/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "type", "summary"]
+            },
+            "description": "Validation que les types sont parmi: weekly, monthly, special"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Business Logic Tests",
+      "item": [
+        {
+          "name": "Verify User Isolation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('User can only see their own commissions', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    var currentUserId = pm.environment.get('user_id');",
+                  "    if (jsonData.data && jsonData.data.length > 0) {",
+                  "        jsonData.data.forEach(function(commission) {",
+                  "            pm.expect(commission.user_id).to.equal(currentUserId);",
+                  "        });",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions"]
+            },
+            "description": "Validation que seules les commissions de l'utilisateur courant sont retournées"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Period Filtering",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const period = pm.environment.get('period');",
+                  "",
+                  "pm.test('Summary includes only commissions from specified period', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.period).to.equal(period);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/summary/{{period}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "summary", "{{period}}"]
+            },
+            "description": "Validation que le filtrage par période fonctionne correctement"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Total Calculations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Total amount calculation is correct', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    var calculatedTotal = 0;",
+                  "    if (jsonData.summary && jsonData.summary.length > 0) {",
+                  "        jsonData.summary.forEach(function(item) {",
+                  "            calculatedTotal += item.total || 0;",
+                  "        });",
+                  "        pm.expect(calculatedTotal).to.equal(jsonData.total_amount);",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/commissions/summary/{{period}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "commissions", "summary", "{{period}}"]
+            },
+            "description": "Validation que le total calculé est correct"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

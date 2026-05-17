@@ -34,6 +34,36 @@ class GenealogyController extends Controller
     }
 
     /**
+     * Obtenir l'arbre unilevel pour la vue TreeView.
+     */
+    public function tree(): JsonResponse
+    {
+        $userId = Auth::id();
+        $node = \Modules\Genealogy\Models\GenealogyNode::where('user_id', $userId)
+            ->with('user')
+            ->firstOrFail();
+
+        $children = \Modules\Genealogy\Models\GenealogyNode::where('sponsor_id', $userId)
+            ->with('user')
+            ->get()
+            ->map(function ($child) {
+                return [
+                    'name' => $child->user->prenom . ' ' . $child->user->nom,
+                    'rank' => $child->rank,
+                    'count' => \Modules\Genealogy\Models\GenealogyNode::where('sponsor_id', $child->user_id)->count()
+                ];
+            });
+
+        return response()->json([
+            'root' => [
+                'name' => $node->user->prenom . ' ' . $node->user->nom,
+                'rank' => $node->rank
+            ],
+            'children' => $children
+        ]);
+    }
+
+    /**
      * Mettre à jour manuellement le rang (utile pour débug ou admin).
      */
     public function refreshRank(): JsonResponse

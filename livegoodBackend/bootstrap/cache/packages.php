@@ -50,13 +50,6 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'modules/affiliation' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Affiliation\\Providers\\AffiliationServiceProvider',
-    ),
-  ),
   'modules/authentication' => 
   array (
     'providers' => 
@@ -93,13 +86,6 @@
       0 => 'Modules\\Genealogy\\Providers\\GenealogyServiceProvider',
     ),
   ),
-  'modules/marketing' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Marketing\\Providers\\MarketingServiceProvider',
-    ),
-  ),
   'modules/notification' => 
   array (
     'providers' => 
@@ -112,41 +98,6 @@
     'providers' => 
     array (
       0 => 'Modules\\Payment\\Providers\\PaymentServiceProvider',
-    ),
-  ),
-  'modules/rank' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Rank\\Providers\\RankServiceProvider',
-    ),
-  ),
-  'modules/statistics' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Statistics\\Providers\\StatisticsServiceProvider',
-    ),
-  ),
-  'modules/support' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Support\\Providers\\SupportServiceProvider',
-    ),
-  ),
-  'modules/training' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\Training\\Providers\\TrainingServiceProvider',
-    ),
-  ),
-  'modules/user-management' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Modules\\UserManagement\\Providers\\UserManagementServiceProvider',
     ),
   ),
   'nesbot/carbon' => 

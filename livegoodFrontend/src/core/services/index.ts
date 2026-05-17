@@ -1,0 +1,10 @@
+export { authService } from "./authService";
+export { affiliationService } from "./affiliationService";
+export { genealogyService } from "./genealogyService";
+export { commissionService } from "./commissionService";
+export { paymentService } from "./paymentService";
+export { shopService } from "./shopService";
+export { rankService } from "./rankService";
+export { supportService } from "./supportService";
+export { trainingService } from "./trainingService";
+export { userService } from "./userService";

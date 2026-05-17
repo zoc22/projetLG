@@ -10,10 +10,11 @@ use Modules\Genealogy\Http\Controllers\MatrixController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:api')->prefix('genealogy')->group(function () {
+Route::middleware('auth:sanctum')->prefix('genealogy')->group(function () {
     
     // Arbre Unilevel (Parrainage direct)
     Route::get('/', [GenealogyController::class, 'index']);
+    Route::get('/tree', [GenealogyController::class, 'tree']);
     Route::post('/refresh-rank', [GenealogyController::class, 'refreshRank']);
 
     // Matrice Forcée 2x15

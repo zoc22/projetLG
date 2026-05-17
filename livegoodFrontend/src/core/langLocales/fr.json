@@ -1,0 +1,21 @@
+{
+  "common": {
+    "welcome": "Bienvenue",
+    "logout": "Déconnexion",
+    "loading": "Chargement..."
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "stats": {
+      "earnings": "Gains totaux",
+      "team": "Membres d'équipe",
+      "rank": "Rang actuel",
+      "progress": "Progression"
+    }
+  },
+  "websites": {
+    "title": "Mes sites web",
+    "copy": "Copier le lien",
+    "visit": "Visiter"
+  }
+}
