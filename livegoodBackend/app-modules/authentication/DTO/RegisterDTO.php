@@ -205,6 +205,11 @@ class RegisterDTO
             'statut_compte' => UserStatusEnum::EN_ATTENTE_VERIFICATION->value,
             'date_inscription' => now(),
             'ip_inscription' => $this->ipAddress,
+            'avatar' => null,
+            'google_id' => null,
+            'facebook_id' => null,
+            'github_id' => null,
+            'login_attempts' => 0,
         ];
     }
 

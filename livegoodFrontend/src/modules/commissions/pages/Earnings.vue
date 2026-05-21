@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import api from '@/src/core/api/client';
+import api from '@/core/api/client';
 import { 
   Wallet as WalletIcon, 
   Zap as ZapIcon, 
@@ -92,8 +92,8 @@ import {
   Users as UsersIcon,
   CheckCircle as CheckCircleIcon 
 } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const earnings = ref<any>(null);
 const loading = ref(true);
@@ -121,3 +121,4 @@ const bonusTypes = computed(() => {
 
 const history = computed(() => earnings.value?.history || []);
 </script>
+

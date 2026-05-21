@@ -90,8 +90,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { Mail as MailIcon, Check as CheckIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const tickets = ref<any[]>([]);
 const loading = ref(true);
@@ -132,3 +132,4 @@ const sendTicket = async () => {
 
 onMounted(fetchTickets);
 </script>
+

@@ -18,7 +18,7 @@ class Affiliate extends Model
     use HasUuid;
 
     protected $fillable = [
-        'user_id', 'username_canonical', 'referral_code', 
+        'user_id', 'username_canonical', 'code_affiliation', 
         'status', 'rank', 'total_commissions', 'pending_balance'
     ];
 

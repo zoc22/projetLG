@@ -70,4 +70,64 @@ class CommissionController extends Controller
 
         return response()->json($summary);
     }
+
+    /**
+     * Historique des bonus filtré par type.
+     */
+    public function bonusHistory(): JsonResponse
+    {
+        $type = request('type');
+        $query = Commission::where('user_id', Auth::id());
+
+        if ($type) {
+            $query->where('bonus_type', $type);
+        }
+
+        return response()->json($query->orderBy('created_at', 'desc')->paginate(20));
+    }
+
+    /**
+     * Gains mensuels consolidés.
+     */
+    public function monthlyEarnings(): JsonResponse
+    {
+        $earnings = Commission::where('user_id', Auth::id())
+            ->where('type', 'MONTHLY')
+            ->selectRaw("SUBSTRING(period_string, 1, 7) as month, SUM(amount) as total")
+            ->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->get();
+
+        return response()->json($earnings);
+    }
+
+    /**
+     * Gains annuels consolidés.
+     */
+    public function yearlyEarnings(): JsonResponse
+    {
+        $earnings = Commission::where('user_id', Auth::id())
+            ->selectRaw("SUBSTRING(period_string, 1, 4) as year, SUM(amount) as total")
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return response()->json($earnings);
+    }
+
+    /**
+     * Rapport détaillé.
+     */
+    public function report(): JsonResponse
+    {
+        $startDate = request('start_date');
+        $endDate = request('end_date');
+
+        $query = Commission::where('user_id', Auth::id());
+
+        if ($startDate) $query->whereDate('created_at', '>=', $startDate);
+        if ($endDate) $query->whereDate('created_at', '<=', $endDate);
+
+        return response()->json($query->get());
+    }
 }

@@ -11,14 +11,16 @@ class AffiliationDatabaseSeeder extends Seeder
     public function run(): void
     {
         // Créer quelques affiliés de démonstration
-        User::where('role', 'affiliate')->get()->each(function ($user) {
-            Affiliate::create([
-                'user_id' => $user->id,
-                'username_canonical' => $user->username ?? 'user-' . $user->id,
-                'referral_code' => strtoupper(\Illuminate\Support\Str::random(10)),
-                'status' => 'active',
-                'rank' => 'unranked'
-            ]);
+        User::whereIn('type_utilisateur', ['affiliate', 'super_admin'])->get()->each(function ($user) {
+            Affiliate::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'username_canonical' => strtolower($user->prenom . $user->nom),
+                    'code_affiliation' => $user->id, // Use UUID as code for tests if needed, or random
+                    'status' => 'active',
+                    'rank' => 'unranked'
+                ]
+            );
         });
     }
 }

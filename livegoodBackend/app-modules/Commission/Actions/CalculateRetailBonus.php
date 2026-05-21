@@ -15,10 +15,11 @@ class CalculateRetailBonus
 {
     public function __construct(protected CommissionService $service) {}
 
-    public function execute(string $userId, string $orderId, float $priceDiff, string $period): void
+    public function execute(string $userId, string $sourceId, float $priceDiff, ?string $period = null): void
     {
         $percentage = config('commission.bonuses.retail.base_percent', 50.00);
         $amount = ($priceDiff * $percentage) / 100;
+        $period = $period ?? now()->format('Y-\WW');
 
         if ($amount > 0) {
             $dto = new BonusCalculationDTO(
@@ -26,14 +27,14 @@ class CalculateRetailBonus
                 amount: $amount,
                 bonusType: BonusTypeEnum::RETAIL,
                 periodString: $period,
-                sourceId: $orderId
+                sourceId: $sourceId
             );
 
             $commission = $this->service->storeCommission($dto, CommissionTypeEnum::WEEKLY);
 
             RetailBonus::create([
                 'commission_id' => $commission->id,
-                'order_id' => $orderId,
+                'order_id' => $sourceId,
                 'price_difference' => $priceDiff
             ]);
         }

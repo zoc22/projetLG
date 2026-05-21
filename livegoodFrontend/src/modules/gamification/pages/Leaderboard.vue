@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { Trophy as TrophyIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
+import Card from '@/components/ui/Card.vue';
 
 const leaders = [
   { name: "JEFFREY AMAN", count: 1204 },
@@ -64,3 +64,4 @@ const leaders = [
   { name: "RYAN GOODKIN", count: 510 },
 ];
 </script>
+

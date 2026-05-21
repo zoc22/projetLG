@@ -7,9 +7,6 @@ import MainLayout from '../components/layouts/MainLayout.vue'
 // Auth Views
 import LoginView from '../views/LoginView.vue'
 
-// Dashboard Views
-import DashboardView from '../views/DashboardView.vue'
-
 const routes = [
   // Redirect root to dashboard
   {
@@ -33,12 +30,12 @@ const routes = [
         component: () => import('../views/RegisterView.vue'),
         meta: { requiresAuth: false }
       },
-      {
-        path: 'forgot-password',
-        name: 'forgot-password',
-        component: () => import('../views/ForgotPasswordView.vue'),
-        meta: { requiresAuth: false }
-      },
+      // {
+      //   path: 'forgot-password',
+      //   name: 'forgot-password',
+      //   component: () => import('../views/ForgotPasswordView.vue'),
+      //   meta: { requiresAuth: false }
+      // },
     ]
   },
 
@@ -51,82 +48,77 @@ const routes = [
       {
         path: '',
         name: 'dashboard',
-        component: DashboardView,
+        component: () => import('../modules/dashboard/pages/Dashboard.vue'),
       },
       {
         path: 'shop',
         name: 'shop',
-        component: () => import('../modules/ecommerce/views/ShopView.vue'),
+        component: () => import('../modules/ecommerce/pages/ProductList.vue'),
       },
       {
         path: 'membership',
         name: 'membership',
-        component: () => import('../modules/membership/views/MembershipView.vue'),
+        component: () => import('../modules/membership/pages/MyMembership.vue'),
       },
       {
         path: 'rank',
         name: 'rank',
-        component: () => import('../modules/rank/views/RankView.vue'),
+        component: () => import('../modules/rank/pages/RankRequirements.vue'),
       },
       {
         path: 'info',
         name: 'profile-info',
-        component: () => import('../modules/profile/views/ProfileView.vue'),
+        component: () => import('../modules/profile/pages/MyInfo.vue'),
       },
       {
         path: 'orders',
         name: 'orders',
-        component: () => import('../modules/orders/views/OrdersView.vue'),
+        component: () => import('../modules/orders/pages/OrderHistory.vue'),
       },
       {
         path: 'team',
         name: 'team',
-        component: () => import('../modules/team/views/TeamView.vue'),
+        component: () => import('../modules/team/pages/MyTeam.vue'),
       },
       {
         path: 'genealogy',
         name: 'genealogy',
-        component: () => import('../modules/genealogy/views/GenealogyView.vue'),
+        component: () => import('../modules/genealogy/pages/MatrixView.vue'),
       },
       {
         path: 'referrals',
         name: 'referrals',
-        component: () => import('../modules/team/views/ReferralsView.vue'),
+        component: () => import('../modules/team/pages/MyReferrals.vue'),
       },
       {
         path: 'enroller',
         name: 'enroller',
-        component: () => import('../modules/team/views/EnrollerView.vue'),
-      },
-      {
-        path: 'leaderboard',
-        name: 'leaderboard',
-        component: () => import('../modules/rank/views/LeaderboardView.vue'),
+        component: () => import('../modules/team/pages/MyEnroller.vue'),
       },
       {
         path: 'websites',
         name: 'websites',
-        component: () => import('../modules/marketing/views/WebsitesView.vue'),
+        component: () => import('../modules/websites/pages/WebsitesManager.vue'),
       },
       {
         path: 'webinars',
         name: 'webinars',
-        component: () => import('../modules/training/views/WebinarsView.vue'),
+        component: () => import('../modules/training/pages/Webinars.vue'),
       },
       {
         path: 'statistics',
         name: 'statistics',
-        component: () => import('../modules/statistics/views/StatisticsView.vue'),
+        component: () => import('../modules/statistics/pages/StatsDashboard.vue'),
       },
       {
         path: 'earnings',
         name: 'earnings',
-        component: () => import('../modules/commissions/views/EarningsView.vue'),
+        component: () => import('../modules/commissions/pages/Earnings.vue'),
       },
       {
         path: 'contact',
         name: 'contact',
-        component: () => import('../modules/support/views/ContactView.vue'),
+        component: () => import('../modules/support/pages/OpenTicket.vue'),
       },
     ]
   },
@@ -145,7 +137,7 @@ const router = createRouter({
 })
 
 // Navigation Guards
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   const authStore = useAuthStore()
   
   // Check if user is authenticated on first load
@@ -156,17 +148,18 @@ router.beforeEach(async (to, from, next) => {
   // Check if route requires authentication
   if (to.meta.requiresAuth === true && !authStore.isAuthenticated) {
     // Redirect to login but remember where they wanted to go
-    next({
+    return {
       name: 'login',
       query: { redirect: to.fullPath }
-    })
+    }
   } 
+  // Redirect to login if trying to access auth pages while not authenticated
+  else if (to.meta.requiresAuth === false && !authStore.isAuthenticated && to.path.startsWith('/auth')) {
+    return true
+  }
   // Redirect to dashboard if already logged in and trying to access auth pages
-  else if (to.meta.requiresAuth === false && authStore.isAuthenticated) {
-    next('/dashboard')
-  } 
-  else {
-    next()
+  else if (to.meta.requiresAuth === false && authStore.isAuthenticated && to.path.startsWith('/auth')) {
+    return '/dashboard'
   }
 })
 

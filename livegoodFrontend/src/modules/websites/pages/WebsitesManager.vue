@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
 import { 
   Globe as GlobeIcon, 
   ShoppingBag as ShoppingBagIcon, 
@@ -74,19 +73,19 @@ import {
   ExternalLink as ExternalLinkIcon,
   TrendingUp as TrendingUpIcon
 } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
+import api from '@/core/api/client';
+import { useAuthStore } from '@/core/stores/authStore';
 
-const profile = ref<any>(null);
-const loading = ref(true);
+const authStore = useAuthStore();
+const profile = computed(() => authStore.user);
+const loading = ref(false);
 
 onMounted(async () => {
-    try {
-        const response = await axios.get('/api/profile/me');
-        profile.value = response.data;
-    } catch (error) {
-        console.error("Error fetching profile", error);
-    } finally {
+    if (!authStore.user) {
+        loading.value = true;
+        await authStore.fetchCurrentUser();
         loading.value = false;
     }
 });
@@ -132,3 +131,4 @@ const visit = (url: string) => {
   window.open(url, '_blank');
 };
 </script>
+

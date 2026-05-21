@@ -20,15 +20,21 @@ class CartService
     public function addToCart(string $userId, string $productId, int $quantity): void
     {
         $cart = $this->getCart($userId);
+        $user = \Modules\Authentication\Models\User::find($userId);
         
+        // Déterminer le prix (membre ou public)
+        $product = Product::findOrFail($productId);
+        $isMember = $user && $user->subscription && $user->subscription->status === 'active';
+        $price = $isMember ? $product->member_price : $product->public_price;
+
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity'] += $quantity;
+            $cart[$productId]['price'] = $price; // Update price in case status changed
         } else {
-            $product = Product::findOrFail($productId);
             $cart[$productId] = [
                 'id'       => $productId,
                 'name'     => $product->name,
-                'price'    => $product->member_price, // Par défaut prix membre si connecté
+                'price'    => $price,
                 'quantity' => $quantity
             ];
         }
@@ -62,10 +68,13 @@ class CartService
             $cart = $this->getCart($userId);
             if (empty($cart)) throw new \Exception("Le panier est vide.");
 
+            $user = \Modules\Authentication\Models\User::find($userId);
+            $isMember = $user && $user->subscription && $user->subscription->status === 'active';
+
             $order = Order::create([
                 'user_id'          => $userId,
                 'ordered_at'       => now(),
-                'status'           => 'pending',
+                'status'           => 'completed', // On simule le paiement réussi pour les tests
                 'total_amount'     => $this->calculateTotal($userId),
                 'shipping_method'  => $shippingData['method'] ?? 'standard',
                 'shipping_address' => $shippingData['address'] ?? null,
@@ -79,6 +88,11 @@ class CartService
                     'unit_price' => $item['price']
                 ]);
                 
+                // Déclencher le bonus de vente au détail si non-membre
+                if (!$isMember) {
+                    $this->triggerRetailBonus($userId, $item['id'], $item['quantity']);
+                }
+
                 // Décrémenter le stock
                 Product::where('id', $item['id'])->decrement('stock', $item['quantity']);
             }
@@ -88,5 +102,29 @@ class CartService
 
             return $order;
         });
+    }
+
+    /**
+     * Déclenche le calcul du bonus de vente au détail.
+     */
+    private function triggerRetailBonus(string $userId, string $productId, int $quantity): void
+    {
+        try {
+            // Récupérer le sponsor via la généalogie
+            $node = \Modules\Genealogy\Models\GenealogyNode::where('user_id', $userId)->first();
+            if ($node && $node->sponsor_id) {
+                $product = Product::find($productId);
+                $retailBonusAction = app(\Modules\Commission\Actions\CalculateRetailBonus::class);
+                
+                // On passe les détails pour le calcul
+                $retailBonusAction->execute(
+                    $node->sponsor_id, 
+                    $userId, 
+                    (float)($product->public_price - $product->member_price) * $quantity
+                );
+            }
+        } catch (\Exception $e) {
+            \Log::error("Erreur déclenchement Retail Bonus: " . $e->getMessage());
+        }
     }
 }

@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Card from '@/src/components/ui/Card.vue';
+import Card from '@/components/ui/Card.vue';
 
 const referrals = ref<any[]>([]);
 const loading = ref(true);
@@ -61,3 +61,4 @@ onMounted(async () => {
     }
 });
 </script>
+

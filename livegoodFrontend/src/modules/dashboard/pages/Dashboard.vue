@@ -167,9 +167,9 @@ import {
   Check as CheckIcon,
   Info as InfoIcon
 } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
-import Modal from '@/src/components/ui/Modal.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
+import Modal from '@/components/ui/Modal.vue';
 
 const profile = ref<any>(null);
 const rank = ref<any>(null);
@@ -249,3 +249,4 @@ const stats = computed(() => [
   { label: "Membres Préinscrits", value: globalStats.value?.stats.preenrolments || "85", icon: TrendingUpIcon, color: "text-indigo-600", bg: "bg-indigo-100/50" },
 ]);
 </script>
+

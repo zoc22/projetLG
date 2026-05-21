@@ -19,7 +19,7 @@ class AffiliateService
         return Affiliate::create([
             'user_id'             => $userId,
             'username_canonical' => Str::slug($username),
-            'referral_code'      => strtoupper(Str::random(10)),
+            'code_affiliation'   => strtoupper(Str::random(10)),
             'status'             => AffiliationStatusEnum::PENDING,
             'rank'               => \Modules\Affiliation\Enums\RankEnum::UNRANKED,
         ]);

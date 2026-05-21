@@ -64,6 +64,73 @@ class GenealogyController extends Controller
     }
 
     /**
+     * Obtenir les détails d'un nœud spécifique.
+     */
+    public function showNode(string $nodeId): JsonResponse
+    {
+        $node = \Modules\Genealogy\Models\GenealogyNode::with(['user', 'sponsor.user'])
+            ->where('user_id', $nodeId)
+            ->firstOrFail();
+
+        return response()->json($node);
+    }
+
+    /**
+     * Rechercher un membre dans la généalogie.
+     */
+    public function search(): JsonResponse
+    {
+        $query = request('q');
+        $users = \Modules\Authentication\Models\User::where('nom', 'ilike', "%$query%")
+            ->orWhere('prenom', 'ilike', "%$query%")
+            ->orWhere('email', 'ilike', "%$query%")
+            ->limit(10)
+            ->get();
+
+        return response()->json($users);
+    }
+
+    /**
+     * Obtenir la downline (filleuls) d'un utilisateur.
+     */
+    public function downline(string $userId): JsonResponse
+    {
+        $level = request('level');
+        $query = \Modules\Genealogy\Models\GenealogyNode::with('user')
+            ->where('sponsor_id', $userId);
+
+        if ($level) {
+            // Logique de niveau relatif à implémenter si nécessaire
+        }
+
+        return response()->json($query->get());
+    }
+
+    /**
+     * Obtenir l'upline (parrains) d'un utilisateur.
+     */
+    public function upline(string $userId): JsonResponse
+    {
+        $upline = [];
+        $currentNode = \Modules\Genealogy\Models\GenealogyNode::where('user_id', $userId)->first();
+
+        while ($currentNode && $currentNode->sponsor_id) {
+            $sponsor = \Modules\Genealogy\Models\GenealogyNode::with('user')
+                ->where('user_id', $currentNode->sponsor_id)
+                ->first();
+            
+            if ($sponsor) {
+                $upline[] = $sponsor;
+                $currentNode = $sponsor;
+            } else {
+                break;
+            }
+        }
+
+        return response()->json($upline);
+    }
+
+    /**
      * Mettre à jour manuellement le rang (utile pour débug ou admin).
      */
     public function refreshRank(): JsonResponse

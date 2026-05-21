@@ -72,8 +72,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { WalletIcon, TrendingUpIcon, Trophy2Icon, UsersIcon } from "lucide-vue-next";
-import { useAuthStore } from "../../core/stores/authStore";
-import { affiliationService, commissionService, rankService, genealogyService } from "../../core/services";
+import { useAuthStore } from "../core/stores/authStore";
+import { affiliationService, commissionService, rankService, genealogyService } from "../core/services";
 
 const authStore = useAuthStore();
 const isLoading = ref(true);

@@ -81,10 +81,12 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { Globe2Icon } from "lucide-vue-next";
-import { useAuthStore } from "../../core/stores/authStore";
+import { useAuthStore } from "../core/stores/authStore";
+import { useNotificationStore } from "../core/stores/notificationStore";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
 
 const email = ref("");
 const password = ref("");
@@ -98,10 +100,12 @@ const handleLogin = async () => {
     error.value = "";
     
     await authStore.login(email.value, password.value);
-    
+    notificationStore.success("Connexion réussie !");
     router.push("/dashboard");
   } catch (err: any) {
-    error.value = err.response?.data?.message || "Erreur de connexion";
+    const errorMsg = err.response?.data?.message || "Erreur de connexion";
+    error.value = errorMsg;
+    notificationStore.error(errorMsg);
   } finally {
     isLoading.value = false;
   }

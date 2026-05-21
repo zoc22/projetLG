@@ -13,7 +13,7 @@ class AffiliateFactory extends Factory
     {
         return [
             'username_canonical' => $this->faker->unique()->userName,
-            'referral_code'      => strtoupper($this->faker->bothify('??##?#?###')),
+            'code_affiliation'   => strtoupper($this->faker->bothify('??##?#?###')),
             'status'             => 'active',
             'rank'               => 'unranked',
             'total_commissions'  => 0,

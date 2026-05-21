@@ -43,8 +43,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { TrendingUp as TrendingUpIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const stats = ref<any[]>([]);
 const sources = ref<any[]>([]);
@@ -62,3 +62,4 @@ onMounted(async () => {
     }
 });
 </script>
+

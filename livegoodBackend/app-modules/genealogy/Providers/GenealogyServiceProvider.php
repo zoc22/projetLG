@@ -20,6 +20,14 @@ class GenealogyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+        
+        // Enregistrer les listeners d'événements
+        $events = $this->app['events'];
+        $events->listen(
+            \Modules\Authentication\Events\UserRegistered::class,
+            \Modules\Genealogy\Listeners\HandleUserRegistration::class
+        );
+
         if (file_exists(__DIR__.'/../Routes/api.php')) {
             \Illuminate\Support\Facades\Route::prefix('api')->middleware('api')->group(__DIR__.'/../Routes/api.php');
         }

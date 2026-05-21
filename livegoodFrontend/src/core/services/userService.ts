@@ -2,13 +2,13 @@ import api from "../api/client";
 
 export const userService = {
   getProfile: () =>
-    api.get("/profile/me"),
+    api.get("/auth/me"),
 
   updateProfile: (data: any) =>
-    api.put("/profile/me", data),
+    api.put("/auth/me", data),
 
   updatePassword: (currentPassword: string, newPassword: string) =>
-    api.post("/profile/change-password", { current_password: currentPassword, new_password: newPassword }),
+    api.put("/auth/change-password", { current_password: currentPassword, new_password: newPassword }),
 
   uploadAvatar: (file: File) => {
     const formData = new FormData();

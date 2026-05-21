@@ -1,23 +1,36 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { reactive } from "vue";
 
 interface AppState {
   lang: string;
   autoTranslate: boolean;
-  setLang: (lang: string) => void;
-  toggleAutoTranslate: () => void;
 }
 
-export const useAppStore = create<AppState>()(
-  persist(
-    (set) => ({
-      lang: "fr",
-      autoTranslate: true,
-      setLang: (lang) => set({ lang }),
-      toggleAutoTranslate: () => set((state) => ({ autoTranslate: !state.autoTranslate })),
-    }),
-    {
-      name: "livegood-preferences",
-    }
-  )
-);
+const storedPrefs = localStorage.getItem("livegood-preferences");
+const initialPrefs = storedPrefs ? JSON.parse(storedPrefs) : { lang: "fr", autoTranslate: true };
+
+const state = reactive<AppState & {
+  setLang: (lang: string) => void;
+  toggleAutoTranslate: () => void;
+}>({
+  lang: initialPrefs.lang || "fr",
+  autoTranslate: initialPrefs.autoTranslate !== undefined ? initialPrefs.autoTranslate : true,
+
+  setLang(lang: string) {
+    this.lang = lang;
+    this.save();
+  },
+
+  toggleAutoTranslate() {
+    this.autoTranslate = !this.autoTranslate;
+    this.save();
+  },
+
+  save() {
+    localStorage.setItem("livegood-preferences", JSON.stringify({
+      lang: this.lang,
+      autoTranslate: this.autoTranslate
+    }));
+  }
+});
+
+export const useAppStore = () => state;

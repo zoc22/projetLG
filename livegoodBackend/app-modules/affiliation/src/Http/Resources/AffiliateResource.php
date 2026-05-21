@@ -14,7 +14,7 @@ class AffiliateResource extends JsonResource
         return [
             'id'                 => $this->id,
             'pseudo'             => $this->username_canonical,
-            'referral_code'      => $this->referral_code,
+            'code_affiliation'   => $this->code_affiliation,
             'status'             => $this->status,
             'rank'               => $this->rank,
             'earnings'           => (float) $this->total_commissions,

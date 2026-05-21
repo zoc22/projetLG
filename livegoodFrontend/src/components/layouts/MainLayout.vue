@@ -1,5 +1,12 @@
 <template>
   <div class="flex h-screen bg-[#F8FAFC]">
+    <!-- Logout Confirmation Modal -->
+    <LogoutConfirmModal 
+      :isOpen="showLogoutModal"
+      :isLoading="isLoggingOut"
+      @confirm="confirmLogout"
+      @cancel="showLogoutModal = false"
+    />
     <!-- Sidebar Desktop -->
     <aside class="hidden w-72 flex-col bg-[#1E293B] text-white lg:flex border-r border-slate-700/50">
       <div class="flex h-20 items-center px-6 border-b border-slate-700/50">
@@ -154,7 +161,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '../../core/stores/authStore';
 import axios from 'axios';
+import LogoutConfirmModal from '../ui/LogoutConfirmModal.vue';
 import { 
   Home as HomeIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -179,8 +188,11 @@ import {
 
 const route = useRoute();
 const router = useRouter();
+const authStore = useAuthStore();
 const isMobileMenuOpen = ref(false);
 const currentUser = ref<any>(null);
+const showLogoutModal = ref(false);
+const isLoggingOut = ref(false);
 
 const fetchUser = async () => {
     try {
@@ -220,6 +232,20 @@ const currentLabel = computed(() => {
 });
 
 const handleLogout = () => {
-  router.push('/auth/login');
+  showLogoutModal.value = true;
+};
+
+const confirmLogout = async () => {
+  try {
+    isLoggingOut.value = true;
+    authStore.logout();
+    await router.push('/auth/login');
+  } catch (error) {
+    console.error('Logout error:', error);
+  } finally {
+    isLoggingOut.value = false;
+    showLogoutModal.value = false;
+  }
 };
 </script>
+

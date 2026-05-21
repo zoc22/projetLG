@@ -10,7 +10,7 @@ use Modules\Affiliation\Http\Controllers\RankController;
 */
 
 Route::middleware('auth:sanctum')->prefix('affiliation')->group(function () {
-    
+
     // Dashboard & Profile
     Route::get('/dashboard', [AffiliateController::class, 'dashboard']);
     Route::get('/me', [AffiliateController::class, 'me']);

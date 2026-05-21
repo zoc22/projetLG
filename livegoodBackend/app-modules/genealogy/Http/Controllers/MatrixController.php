@@ -44,4 +44,16 @@ class MatrixController extends Controller
             'currency' => 'USD'
         ]);
     }
+
+    /**
+     * Obtenir les détails d'un nœud spécifique dans la matrice.
+     */
+    public function showNode(string $nodeId): JsonResponse
+    {
+        $node = \Modules\Genealogy\Models\Position::with(['user', 'parent.user', 'children.user'])
+            ->where('user_id', $nodeId)
+            ->firstOrFail();
+
+        return response()->json($node);
+    }
 }

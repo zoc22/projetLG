@@ -40,8 +40,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { ShoppingBag as ShoppingBagIcon, Check as CheckIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const products = ref<any[]>([]);
 const loading = ref(true);
@@ -71,3 +71,4 @@ onMounted(async () => {
     }
 });
 </script>
+

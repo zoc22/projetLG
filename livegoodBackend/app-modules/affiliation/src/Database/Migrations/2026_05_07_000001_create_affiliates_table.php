@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('user_id')->unique()->index();
             
             $table->string('username_canonical')->unique(); // Pseudo utilisé pour les liens
-            $table->string('referral_code')->unique();
+            $table->string('code_affiliation')->unique();
             
             $table->string('status')->default('pending'); // AffiliationStatusEnum
             $table->string('rank')->default('unranked');   // RankEnum

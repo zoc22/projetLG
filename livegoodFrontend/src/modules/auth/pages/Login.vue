@@ -81,17 +81,19 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Globe2 as Globe2Icon, ArrowRight as ArrowRightIcon, Chrome as ChromeIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 import axios from 'axios';
 
-import { useAuthStore } from '@/src/core/stores/authStore';
+import { useAuthStore } from '@/core/stores/authStore';
+import { useNotificationStore } from '@/core/stores/notificationStore';
 
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
 const router = useRouter();
 const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
 
 const handleGoogleLogin = async () => {
   try {
@@ -99,6 +101,7 @@ const handleGoogleLogin = async () => {
     window.location.href = response.data.url;
   } catch (error) {
     console.error('Google login error', error);
+    notificationStore.error('Erreur lors de la connexion Google');
   }
 };
 
@@ -106,12 +109,14 @@ const handleSubmit = async () => {
   loading.value = true;
   try {
     await authStore.login(email.value, password.value);
+    notificationStore.success('Connexion réussie !');
     router.push('/dashboard');
   } catch (error: any) {
     console.error('Login failed', error);
-    alert(error.response?.data?.message || 'Identifiants invalides');
+    notificationStore.error(error.response?.data?.message || 'Identifiants invalides');
   } finally {
     loading.value = false;
   }
 };
 </script>
+

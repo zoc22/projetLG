@@ -124,9 +124,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
-import Modal from '@/src/components/ui/Modal.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
+import Modal from '@/components/ui/Modal.vue';
 import { UserPlus as UserPlusIcon, Check as CheckIcon } from 'lucide-vue-next';
 
 const team = ref<any[]>([]);
@@ -186,3 +186,4 @@ const getRankStyles = (rank: string) => {
   }
 };
 </script>
+

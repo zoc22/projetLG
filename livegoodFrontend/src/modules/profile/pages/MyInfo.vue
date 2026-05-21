@@ -49,8 +49,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { User as UserIcon, Camera as CameraIcon, Check as CheckIcon, Loader2 as LoaderIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const user = ref<any>(null);
 const loading = ref(true);
@@ -97,3 +97,4 @@ const handleFileUpload = async (event: Event) => {
     }
 };
 </script>
+

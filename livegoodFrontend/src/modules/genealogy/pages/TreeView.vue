@@ -72,9 +72,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import api from '@/src/core/api/client';
+import api from '@/core/api/client';
 import { User as UserIcon } from 'lucide-vue-next';
-import Button from '@/src/components/ui/Button.vue';
+import Button from '@/components/ui/Button.vue';
 
 const view = ref('tree');
 const root = ref<any>(null);
@@ -100,3 +100,4 @@ const legend = [
   { label: "Or", color: "bg-yellow-400" },
 ];
 </script>
+

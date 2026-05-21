@@ -42,8 +42,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { History as HistoryIcon } from 'lucide-vue-next';
-import Card from '@/src/components/ui/Card.vue';
-import Button from '@/src/components/ui/Button.vue';
+import Card from '@/components/ui/Card.vue';
+import Button from '@/components/ui/Button.vue';
 
 const orders = ref<any[]>([]);
 const loading = ref(true);
@@ -59,3 +59,4 @@ onMounted(async () => {
     }
 });
 </script>
+

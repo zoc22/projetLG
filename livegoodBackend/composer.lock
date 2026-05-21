@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c87b5d538a1412e0e6570fe864f48d4",
+    "content-hash": "92132e07ddbb42fff2d3175b3c6aaea6",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3290,6 +3290,40 @@
             "time": "2025-09-14T11:18:39+00:00"
         },
         {
+            "name": "modules/affiliation",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/affiliation",
+                "reference": "07436829df5cc07097dd1e536d476872963fc57d"
+            },
+            "type": "library",
+            "extra": {
+                "active": true,
+                "order": 2,
+                "dependencies": [
+                    "core"
+                ],
+                "provider": "Modules\\Affiliation\\Providers\\AffiliationServiceProvider"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Affiliation\\": "src/",
+                    "Modules\\Affiliation\\Tests\\": "tests/",
+                    "Modules\\Affiliation\\Database\\Factories\\": "src/Database/Factories/",
+                    "Modules\\Affiliation\\Database\\Seeders\\": "src/Database/Seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Module Affiliation pour LiveGood - Gestion du réseau de parrainage et des commissions",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "modules/authentication",
             "version": "1.0",
             "dist": {
@@ -3586,6 +3620,40 @@
                 "proprietary"
             ],
             "description": "Module Rank pour LiveGood",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/shop",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/Shop",
+                "reference": "423bbd62557fb3158920a4399fafc7c5625ffd0e"
+            },
+            "type": "library",
+            "extra": {
+                "active": true,
+                "order": 10,
+                "dependencies": [
+                    "core"
+                ],
+                "provider": "Modules\\Shop\\Providers\\ShopServiceProvider"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Shop\\": "src/",
+                    "Modules\\Shop\\Tests\\": "tests/",
+                    "Modules\\Shop\\Database\\Factories\\": "src/Database/Factories/",
+                    "Modules\\Shop\\Database\\Seeders\\": "src/Database/Seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Module Shop pour LiveGood",
             "transport-options": {
                 "symlink": true,
                 "relative": true
