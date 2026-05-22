@@ -12,6 +12,7 @@ export const menuItems = [
   { id: 'sitesweb', label: 'Mes sites web', icon: 'fas fa-globe' },
   { id: 'webinaires', label: 'Webinaires', icon: 'fas fa-chalkboard-user' },
   { id: 'statistiques', label: 'Statistiques', icon: 'fas fa-chart-line' },
+  { id: 'planremuneration', label: 'Plan de rémunération', icon: 'fas fa-file-invoice-dollar' },
   { id: 'gains', label: 'Mes gains', icon: 'fas fa-coins' },
   { id: 'contact', label: 'Contact', icon: 'fas fa-headset' },
   { id: 'logout', label: 'Déconnexion', icon: 'fas fa-sign-out-alt' }

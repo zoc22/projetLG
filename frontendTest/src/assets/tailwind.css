@@ -1,1 +1,55 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-50: #fffbeb;
+  --color-primary-100: #fef3c7;
+  --color-primary-200: #fde68a;
+  --color-primary-300: #fcd34d;
+  --color-primary-400: #fbbf24;
+  --color-primary-500: #f59e0b;
+  --color-primary-600: #d97706;
+  --color-primary-700: #b45309;
+  --color-primary-800: #92400e;
+  --color-primary-900: #78350f;
+  --color-primary-950: #451a03;
+}
+
+:root {
+  --background: #fffdfa; /* Warm white */
+  --foreground: #2d241e; /* Deep brown-gray */
+  --card: #ffffff;
+  --card-foreground: #2d241e;
+  --border: #f3e8d6; /* Warm light border */
+}
+
+.dark {
+  --background: #0a0a0c; /* Deep black-blue */
+  --foreground: #f8f9fa;
+  --card: #141417;
+  --card-foreground: #f8f9fa;
+  --border: #27272a;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .card-warm {
+    @apply bg-[var(--card)] border border-[var(--border)] rounded-[2rem] shadow-sm transition-all;
+  }
+  
+  .dark .card-warm {
+    @apply bg-gray-800/40 border-gray-700/50 shadow-none backdrop-blur-md;
+  }
+
+  .text-theme {
+    @apply text-[var(--foreground)] transition-colors;
+  }
+
+  .text-theme-muted {
+    @apply text-[var(--foreground)] opacity-60 transition-colors;
+  }
+}

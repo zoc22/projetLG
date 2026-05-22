@@ -5,7 +5,6 @@ export const useUIStore = defineStore('ui', () => {
   const darkMode = ref(localStorage.getItem('darkMode') === 'true')
   const isSidebarOpen = ref(false)
   const isSidebarDesktopOpen = ref(localStorage.getItem('sidebarDesktopOpen') !== 'false')
-  const activeSection = ref('dashboard')
 
   const toggleDarkMode = () => {
     darkMode.value = !darkMode.value
@@ -30,22 +29,13 @@ export const useUIStore = defineStore('ui', () => {
     isSidebarOpen.value = value
   }
 
-  const setActiveSection = (sectionId) => {
-    activeSection.value = sectionId
-    if (window.innerWidth < 1024) {
-      isSidebarOpen.value = false
-    }
-  }
-
   return {
     darkMode,
     isSidebarOpen,
     isSidebarDesktopOpen,
-    activeSection,
     toggleDarkMode,
     updateTheme,
     toggleSidebarDesktop,
-    setSidebarOpen,
-    setActiveSection
+    setSidebarOpen
   }
 })

@@ -10,8 +10,10 @@ export function useChart() {
     const canvas = document.getElementById(canvasId)
     if (!canvas) return
     
-    if (earningsChart) {
-      earningsChart.destroy()
+    // Rechercher une instance existante de Chart.js sur ce canvas et la détruire
+    const existingChart = Chart.getChart(canvas)
+    if (existingChart) {
+      existingChart.destroy()
     }
     
     const ctx = canvas.getContext('2d')
